@@ -1,0 +1,9 @@
+S No,Test ID,Tester name,Date,Test case,Username,Password,Expected condition,Test result
+1,GUVI_01,Indu,'2025-10-25,Validating login functionality,indu,admin123,Invalid credentials,Pass
+2,GUVI_02,Indu,'2025-10-25,Validating login functionality,Admin,indu,Invalid credentials,Pass
+3,GUVI_03,Indu,'2025-10-25,Validating login functionality,indu,admin 123,Invalid credentials,Pass
+4,GUVI_04,Indu,'2025-10-25,Validating login functionality,Admin,admin@123,Invalid credentials,Pass
+5,GUVI_05,Indu,'2025-10-25,Validating login functionality,admin,,Required,Pass
+6,GUVI_06,Indu,'2025-10-25,Validating login functionality,,admin123,Required,Pass
+7,GUVI_07,Indu,'2025-10-25,Validating login functionality,,,Required,Pass
+8,GUVI_08,Indu,'2025-10-25,Validating login functionality,Admin,admin123,,Pass
