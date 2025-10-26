@@ -27,6 +27,8 @@ class DashboardPage(BasePage):
         is_visible = self.is_element_visible(expected_element)
         return is_visible
 
+
+    #Methods to add new user and verify the same
     def select_admin_menu(self):
         self.click_element(Locators.admin_menu_option)
 
@@ -49,6 +51,7 @@ class DashboardPage(BasePage):
 
     def re_enter_employee_name(self):
         self.enter_text(Locators.employee_name_input, const.EMPLOYEE_NAME)
+        print(f"****************** {const.EMPLOYEE_NAME}")
         name_element = (By.XPATH, f"//div[@role='listbox']//span[text() = '{const.EMPLOYEE_NAME}']")
         self.click_element(name_element)
 
@@ -72,6 +75,8 @@ class DashboardPage(BasePage):
         is_visible = self.is_element_visible(element_path)
         return is_visible
 
+
+    #Methods to validate My Info sub titles
     def click_my_info_menu(self):
         self.click_element(Locators.my_info_menu_option)
 
@@ -84,6 +89,7 @@ class DashboardPage(BasePage):
         title_text = self.get_element_text(Locators.my_info_submenu_title)
         return title_text
 
+    #Methods to perform leave assignment
     def select_leave_menu_option(self):
         self.click_element(Locators.leave_menu_option)
 
@@ -92,9 +98,46 @@ class DashboardPage(BasePage):
 
     def select_leave_type(self):
         self.click_element(Locators.leave_type_dropdown)
+        const.LEAVE_TYPE = self.get_element_text(Locators.leave_option)
         self.click_element(Locators.leave_option)
 
-    #Methods to access claim info.
+    def select_from_date(self, no_of_days):
+        self.select_date(Locators.from_date,
+                         Locators.calendar_view,
+                         Locators.current_month_shown_in_calendar,
+                         Locators.next_month_arrow, no_of_days)
+
+    def enter_comments_leave(self, text):
+        self.enter_text(Locators.comments_input, text)
+
+    def click_assign_button(self):
+        self.click_element(Locators.assign_button)
+
+    def is_leave_confirm_popup_shown(self):
+        return self.is_element_visible(Locators.confirm_leave_assignment_title)
+
+    def confirm_leave_assignment(self):
+        self.click_element(Locators.leave_confirm_ok)
+
+    def select_leave_list_submenu(self):
+        self.click_element(Locators.leave_list_submenu)
+
+    def search_for_leave_type(self, leave_type):
+        self.click_element(Locators.leave_type_dropdown_leave_list)
+        leave_type_element = (By.XPATH, f"//div[@role='listbox']//span[text() = {leave_type}]")
+        self.click_element(leave_type_element)
+
+    def click_leave_search_button(self):
+        self.click_element(Locators.leave_search_button)
+
+    def get_emp_name_search_result(self):
+        return self.get_element_text(Locators.leave_search_result_emp_name).strip()
+
+    def get_leave_type_search_result(self):
+        return self.get_element_text(Locators.leave_search_result_type).strip()
+
+
+    # Methods to access claim info.
     def select_claim_main_menu(self):
         self.click_element(Locators.claim_menu_option)
 
@@ -116,7 +159,27 @@ class DashboardPage(BasePage):
     def submit_claim_request(self):
         self.click_element(Locators.create_button)
 
+    def submit_claim_final(self):
+        self.click_element(Locators.submit_button)
+
     def is_submit_claim_confirmation_shown(self):
         is_element_visible = self.is_element_visible(Locators.submit_claim_confirmation)
         return is_element_visible
 
+    def select_my_claims_tab(self):
+        self.click_element(Locators.my_claims_tab)
+
+    def click_view_details(self):
+        self.scroll_and_click(Locators.view_details_button)
+
+    def is_claim_id_visible(self, value):
+        return self.scroll_and_find_by_value(value)
+
+    def get_event_name_from_record(self):
+        return self.get_element_text(Locators.event_type_submitted_claim)
+
+    def get_description(self):
+        return self.get_element_text(Locators.description_submitted_claim)
+
+    def get_submitted_date(self):
+        return self.get_element_text(Locators.submitted_date)

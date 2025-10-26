@@ -10,5 +10,8 @@ FP_TITLE_TEXT = "Please enter your username to identify your account to reset yo
 CLAIM_REASON = "Test automation"
 EVENT_TYPE = ""
 
+LEAVE_TYPE = ""
+LEAVE_COMMENT = "Test leave assignment"
+
 
 DEFAULT_TIMEOUT = 15

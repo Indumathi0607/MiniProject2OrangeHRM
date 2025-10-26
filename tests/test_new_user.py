@@ -1,5 +1,6 @@
 import random
 import string
+from datetime import date
 
 import allure
 import pytest
@@ -12,8 +13,6 @@ from utilities.random_user_generator import RandomUserGenerator
 
 
 class TestNewUser:
-
-    @pytest.mark.smoke
     @allure.title("TC5: Verify visibility and clickability of main menu items after login")
     def test_validate_menu_items(self, driver, request):
         capture_screen = CaptureScreenshot(driver, request)
@@ -51,7 +50,6 @@ class TestNewUser:
             assert dp.get_dashboard_title_text() == "Dashboard", f"Dashboard page is not loaded"
             capture_screen.capture_screenshot("Dashboard_displayed")
 
-    @pytest.mark.tested
     @allure.title("TC6: Validate the newly created user is listed in the admin user list")
     def test_presence_of_new_user_in_user_list(self, driver, request):
         capture_screen = CaptureScreenshot(driver, request)
@@ -99,7 +97,27 @@ class TestNewUser:
             dp.submit_claim_request()
             capture_screen.capture_screenshot("Submitting_claim_request")
 
-        with allure.step("Validate submitted request"):
             assert dp.is_submit_claim_confirmation_shown(), f"Submit claim is not shown"
+            dp.submit_claim_final()
+            capture_screen.capture_screenshot("Submitting_claim_final")
+
+        with allure.step("Validate submitted request"):
+            dp.select_my_claims_tab()
+            capture_screen.capture_screenshot("Selecting_my_claims")
+
+            event_name = dp.get_event_name_from_record()
+            assert event_name ==  const.EVENT_TYPE, f"Expected event type {const.EVENT_TYPE} and actual {event_name}"
+
+            description = dp.get_description()
+            assert description == const.CLAIM_REASON, f"Expected {const.CLAIM_REASON} and actual is {description}"
+
+            expected_date = date.today().strftime("%Y-%d-%m")
+            actual_date = dp.get_submitted_date()
+            assert actual_date == expected_date, f"Expected date {expected_date} and actual is {actual_date}"
+            capture_screen.capture_screenshot("Validating_claim_record")
+
+
+
+
 
 
