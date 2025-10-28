@@ -17,7 +17,7 @@ class TestDashboard:
     def test_validate_menu_items(self, driver, request):
 
         # Defining instance for capture screenshot class
-        capture_screen = CaptureScreenshot(driver, request)
+        capture_screen = CaptureScreenshot(driver, request.node)
         lp = LoginPage(driver)
         dp = DashboardPage(driver)
 

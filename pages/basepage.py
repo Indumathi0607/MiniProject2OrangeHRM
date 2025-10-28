@@ -107,25 +107,29 @@ class BasePage:
         target_date = today + timedelta(days = no_of_days)
         target_day = target_date.day
         target_month = target_date.strftime("%B") #Full month name 'October'
-        target_year = target_date.year
 
         self.click_element(date_field_locator) #open the calendar
         self.find_element(calendar_locator) #wait and find the calendar view is loaded
 
         # Get displayed month and year
         while True:
-            displayed_month_year = self.get_element_text(month_selected_currently)
-            displayed_month, displayed_year = displayed_month_year.split()
-            displayed_year = int(displayed_year)
+            displayed_month = self.get_element_text(month_selected_currently)
+            print("***********", displayed_month, target_day)
+            """displayed_month, displayed_year = displayed_month_year.split()
+            displayed_year = int(displayed_year)"""
 
-            if displayed_month == target_month and displayed_year == target_year:
+            if displayed_month == target_month:
                 break
             else:
                 # Click next arrow
                self.click_element(next_arrow)
 
         # Select the day
-        day_xpath = f"//div[contains(@class,'oxd-date-input-calendar')]//div[@role='button' and text()='{target_day}']"
-        self.click_element(day_xpath)
+        day_xpath = (By.XPATH, f"//div[contains(@class,'oxd-date-input-calendar')]//div[contains(@class,'oxd-calendar-date') and normalize-space()='{target_day}']")
+        self.scroll_and_click(day_xpath)
 
         print(f"Selected date: {target_date.strftime('%d-%b-%Y')}")
+
+    def scroll_and_find(self, locator):
+        web_element = self.find_element(locator)
+        ActionChains(self.driver).scroll_to_element(web_element).perform()

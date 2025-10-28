@@ -112,7 +112,7 @@ class TestLogin:
 
         #Define objects for capture screenshot, login pages
         lp = LoginPage(driver)
-        capture_screen = CaptureScreenshot(driver, request)
+        capture_screen = CaptureScreenshot(driver, request.node)
 
         with allure.step("Click on Forgot Password"):
             lp.click_forgot_password()

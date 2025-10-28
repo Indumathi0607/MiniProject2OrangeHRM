@@ -42,7 +42,7 @@ class Locators:
     assign_leave_tab = (By.XPATH, "//a[text() = 'Assign Leave']")
     leave_type_dropdown = (By.XPATH, "//div[@class = 'oxd-select-text-input']")  # XPATH
     leave_option = (By.XPATH, "(//div[@role='listbox']//span)[3]")  # XPATH
-    from_date = (By.XPATH, "(//input[@class = 'oxd-input oxd-input--active'])[1]") #XPATH
+    from_date = (By.XPATH, "(//input[@class = 'oxd-input oxd-input--active'])[2]") #XPATH
     calendar_view = (By.XPATH, "//div[contains(@class,'oxd-date-input-calendar')]") #XPATH
     current_month_shown_in_calendar = (By.XPATH, "//div[contains(@class,'oxd-date-input-calendar')]//div[contains(@class,'oxd-calendar-selector-month')]") #XPATH
     next_month_arrow = (By.XPATH, "//button[contains(@class,'oxd-calendar-navigation-button--next')]") #XPATH
@@ -55,6 +55,9 @@ class Locators:
     leave_search_button = (By.XPATH, "//button[text() = ' Search ']") #XPATH
     leave_search_result_emp_name = (By.XPATH, "(//div[@class = 'oxd-table-cell oxd-padding-cell'])[3]")
     leave_search_result_type = (By.XPATH, "(//div[@class = 'oxd-table-cell oxd-padding-cell'])[4]")
+    leave_status = (By.XPATH, "(//div[@class = 'oxd-select-text oxd-select-text--active'])[1]") #XPATH
+    leave_status_scheduled = (By.XPATH, "//div[@role='listbox']//span[contains(text(), 'Scheduled')]")
+
 
     #Dashboard - Claims locators
     submit_claim_tab = (By.XPATH, "//a[text() = 'Submit Claim']") #XPATH
@@ -77,5 +80,6 @@ class Locators:
     fp_username_input = (By.XPATH, "//input[@name = 'username']") #XPATH
     fp_reset_password_button = (By.XPATH, "//button[@type = 'submit']") #XPATH
     fp_reset_link_sent_message = (By.XPATH, "//h6[@class ='oxd-text oxd-text--h6 orangehrm-forgot-password-title']") #XPATH
+
 
 

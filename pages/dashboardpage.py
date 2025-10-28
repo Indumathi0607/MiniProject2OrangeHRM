@@ -1,6 +1,7 @@
 import random
 import string
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
@@ -122,10 +123,9 @@ class DashboardPage(BasePage):
     def select_leave_list_submenu(self):
         self.click_element(Locators.leave_list_submenu)
 
-    def search_for_leave_type(self, leave_type):
-        self.click_element(Locators.leave_type_dropdown_leave_list)
-        leave_type_element = (By.XPATH, f"//div[@role='listbox']//span[text() = {leave_type}]")
-        self.click_element(leave_type_element)
+    def select_leave_status(self):
+        self.click_element(Locators.leave_status)
+        self.click_element(Locators.leave_status_scheduled)
 
     def click_leave_search_button(self):
         self.click_element(Locators.leave_search_button)
@@ -135,6 +135,9 @@ class DashboardPage(BasePage):
 
     def get_leave_type_search_result(self):
         return self.get_element_text(Locators.leave_search_result_type).strip()
+
+    def scroll_to_leave_list(self):
+        self.scroll_and_find(Locators.leave_search_result_type)
 
 
     # Methods to access claim info.
@@ -183,3 +186,6 @@ class DashboardPage(BasePage):
 
     def get_submitted_date(self):
         return self.get_element_text(Locators.submitted_date)
+
+    def scroll_to_claim_list(self):
+        self.scroll_and_find(Locators.event_type_submitted_claim)

@@ -12,7 +12,7 @@ class TestMyInfo:
     @pytest.mark.tested
     @allure.title("TC8: Validate the presence of menu items under My Info")
     def test_myinfo_menu_items(self, driver, request):
-        capture_screen = CaptureScreenshot(driver, request)
+        capture_screen = CaptureScreenshot(driver, request.node)
 
         lp = LoginPage(driver)
         dp = DashboardPage(driver)

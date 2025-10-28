@@ -51,21 +51,32 @@ def pytest_runtest_makereport(item):
     outcome = yield
     rep = outcome.get_result()
 
-    if rep.when == "call":
-        setattr(item, "rep_call", rep)
-        if rep.failed:
-            driver = item.funcargs.get("driver", None)
-            if not driver:
-                for fixture_value in item.funcargs.values():
-                    if hasattr(fixture_value, "driver"):
-                        driver = fixture_value.driver
-                        break
-            if driver:
-                try:
-                    screenshot_base64 = CaptureScreenshot(driver, request=item.funcargs.get("request")).capture_screenshot(item.name)
-                    html_plugin = item.config.pluginmanager.getplugin("html")
-                    extra = getattr(rep, "extra", [])
-                    extra.append(html_plugin.extras.image(screenshot_base64, "Failure Screenshot"))
-                    rep.extra = extra
-                except Exception as e:
-                    print(f"Failed to capture screenshot for {item.name}: {e}")
+    if rep.when != "call":
+        return
+
+    driver = item.funcargs.get("driver", None)
+    if not driver:
+        for fixture_value in item.funcargs.values():
+            if hasattr(fixture_value, "driver"):
+                driver = fixture_value.driver
+                break
+    if not driver:
+        return
+
+    html_plugin = item.config.pluginmanager.getplugin("html")
+    if not html_plugin:
+        return
+
+    extra = getattr(rep, "extra", [])
+
+    # Attach all MANUAL screenshots to pytest-html
+    if hasattr(item, "manual_screenshots"):
+        for name, screenshot_base64 in item.manual_screenshots:
+            extra.append(html_plugin.extras.image(screenshot_base64, name))
+
+    # Capture and attach FAILURE screenshot (if test failed)
+    if rep.failed:
+        screenshot_base64 = CaptureScreenshot.capture_screenshot_on_failure(driver, item)
+        extra.append(html_plugin.extras.image(screenshot_base64, "Failure Screenshot"))
+
+    rep.extra = extra
